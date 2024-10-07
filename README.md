@@ -8,46 +8,15 @@ Este projeto simula uma casa inteligente, permitindo o controle remoto de dispos
 ## Índice
 
 - [Visão Geral](#visão-geral)
-- [Instalação e Execução](#instalação-e-execução)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Instalação e Execução](#cômodos-e-dispositivos)
+- [Instalação e Execução](#instalação-e-execução)
 
 ## Visão Geral
 
 O Projeto Evento foi desenvolvido para facilitar o gerenciamento de eventos. Ele permite que os usuários criem e visualizem eventos, bem como façam alterações conforme necessário.
 
-## Instalação e Execução
-
-Para executar o projeto, siga os passos abaixo:
-
-1. **Clone o repositório:**
-
-   ```bash
-   git clone https://github.com/aagablm/projeto-evento.git
-   cd projeto-evento
-
-
-2. Navegue até a pasta do backend e instale as dependências:
-
-   ```bash
-   cd smart-home-backend
-   npm install
-
-3. Inicie o servidor backend:
-   ```bash
-   npm start
-
-O servidor estará disponível em http://localhost:3000 
-
-4. Abra outra janela do terminal e navegue até a pasta do frontend e instale as dependências:
-   ```bash
-   cd smart-home-frontend
-   npm install
-
-5. Inicie o servidor frontend:
-   ```bash
-   npm start
-
-## 💻 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 - Node.js
 - Express
 - Socket.IO
@@ -99,6 +68,38 @@ O servidor estará disponível em http://localhost:3000
 - **Comportamento esperado:** O usuário deve poder abrir e fechar as cortinas.
 - **Estados:** Aberto/Fechado.
 
+## Instalação e Execução
+
+Para executar o projeto, siga os passos abaixo:
+
+1. **Clone o repositório:**
+
+   ```bash
+   git clone https://github.com/aagablm/projeto-evento.git
+   cd projeto-evento
+
+
+2. Navegue até a pasta do backend e instale as dependências:
+
+   ```bash
+   cd smart-home-backend
+   npm install
+
+3. Inicie o servidor backend:
+   ```bash
+   npm start
+
+O servidor estará disponível em http://localhost:3000 
+
+4. Abra outra janela do terminal e navegue até a pasta do frontend e instale as dependências:
+   ```bash
+   cd smart-home-frontend
+   npm install
+
+5. Inicie o servidor frontend:
+   ```bash
+   npm start
+   
 ## 🤝 Desenvolvedora
 
 <table>

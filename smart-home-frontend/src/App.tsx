@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import './App.css';
 import luz from './imagens/luz.png';
+import luzDesligada from './imagens/luzDesligada.png';
 import ar from './imagens/ar.png';
 import arDesligado from './imagens/arDesligado.png';
 import canal1 from './imagens/canal1.png';
@@ -11,6 +12,7 @@ import canal4 from './imagens/canal4.png';
 import canal5 from './imagens/canal5.png';
 import tvDesligada from './imagens/tvDesligada.png';
 import geladeira from './imagens/geladeira.png';
+import geladeiraFechada from './imagens/geladeiraFechada.png';
 import fogao from './imagens/fogao.png';
 import ventilador from './imagens/ventilador.png';
 import cortinas from './imagens/cortina.png';
@@ -154,9 +156,10 @@ const App: React.FC = () => {
           <button onClick={acenderLuzSala}>
             {dispositivo.sala.luzOn ? 'Desligar Luz' : 'Ligar Luz'}
           </button>
+          <div></div>
           <img
-            src={luz}
-            className={`status ${dispositivo.sala.luzOn ? 'on' : 'off'}`}
+            src={dispositivo.sala.luzOn ? luz : luzDesligada}
+            className='status'
           />
         </div>
 
@@ -216,7 +219,7 @@ const App: React.FC = () => {
                 />
               </>
             ) : (
-              <img src={tvDesligada} alt="Televisão desligada" className='status' />
+              <img src={tvDesligada} className='status' />
             )}
           </div>
 
@@ -250,9 +253,9 @@ const App: React.FC = () => {
               onChange={(e) => ajustarTemperaturaGeladeira(Number(e.target.value))}
               placeholder="Ajustar Temperatura"
             /></p>
-          <img
-            src={geladeira}
-            className={`status ${dispositivo.cozinha.geladeiraOn ? 'on' : 'off'}`}
+            <img
+            src={dispositivo.cozinha.geladeiraOn ? geladeira : geladeiraFechada}
+            className='status'
           />
         </div>
 

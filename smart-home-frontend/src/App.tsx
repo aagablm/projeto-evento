@@ -20,7 +20,10 @@ interface EstadoDispositivo {
   cozinha: {
     luzCozinhaOn: boolean,
     geladeiraOn: boolean,
-    fogaoOn: boolean
+    geladeiraTemperatura: number, // Adiciona a temperatura da geladeira
+    alertaGeladeira: boolean, // Estado do alerta da geladeira
+    fogaoOn: boolean,
+    fogaoPotencia: number // Nível de potência do fogão
   },
   quarto: {
     luzQuartoOn: boolean,
@@ -40,7 +43,10 @@ const App: React.FC = () => {
     cozinha: {
       luzCozinhaOn: false,
       geladeiraOn: false,
-      fogaoOn: false
+      geladeiraTemperatura: 0, // Inicializa a temperatura
+      alertaGeladeira: false, // Inicializa o alerta
+      fogaoOn: false,
+      fogaoPotencia: 1 // Inicializa a potência do fogão
     },
     quarto: {
       luzQuartoOn: false,
@@ -59,9 +65,14 @@ const App: React.FC = () => {
       setDispositivo(novoEstado);
     });
 
+    socket.on('alertaGeladeira', (mensagem: string) => {
+      alert(mensagem); // Exibe um alerta quando a temperatura da geladeira estiver acima do limite
+    });
+
     return () => {
       socket.off('estadoInicial');
       socket.off('estadoAltera');
+      socket.off('alertaGeladeira');
     };
   }, []);
 
@@ -87,8 +98,16 @@ const App: React.FC = () => {
     socket.emit('ligarGeladeira');
   };
 
+  const ajustarTemperaturaGeladeira = (novaTemperatura: number) => {
+    socket.emit('ajustarTemperaturaGeladeira', novaTemperatura);
+  };
+
   const ligarFogao = () => {
     socket.emit('ligarFogao');
+  };
+
+  const ajustarPotenciaFogao = (novaPotencia: number) => {
+    socket.emit('ajustarPotenciaFogao', novaPotencia);
   };
 
   // Funções para o Quarto
@@ -170,6 +189,13 @@ const App: React.FC = () => {
           <button onClick={ligarGeladeira}>
             {dispositivo.cozinha.geladeiraOn ? 'Abrir Geladeira' : 'Fechar Geladeira'}
           </button>
+          <p>Temperatura: {dispositivo.cozinha.geladeiraTemperatura.toFixed(1)}°C</p>
+          <input 
+            type="number" 
+            value={dispositivo.cozinha.geladeiraTemperatura} 
+            onChange={(e) => ajustarTemperaturaGeladeira(Number(e.target.value))} 
+            placeholder="Ajustar Temperatura"
+          />
           <img
             src={geladeira}
             className={`status ${dispositivo.cozinha.geladeiraOn ? 'on' : 'off'}`}
@@ -181,6 +207,18 @@ const App: React.FC = () => {
           <button onClick={ligarFogao}>
             {dispositivo.cozinha.fogaoOn ? 'Desligar Fogão' : 'Ligar Fogão'}
           </button>
+          <p>Potência: 
+            <select 
+              value={dispositivo.cozinha.fogaoPotencia} 
+              onChange={(e) => ajustarPotenciaFogao(Number(e.target.value))}
+            >
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+            </select>
+          </p>
           <img
             src={fogao}
             className={`status ${dispositivo.cozinha.fogaoOn ? 'on' : 'off'}`}

@@ -25,13 +25,27 @@ let dispositivos = {
     cozinha: {
         luzCozinhaOn: false,
         geladeiraOn: false,
-        fogaoOn: false
+        geladeiraTemperatura: 6, // Temperatura inicial
+        alertaGeladeira: false, // Alerta da geladeira
+        fogaoOn: false,
+        fogaoPotencia: 1 
     },
     quarto: {
         luzQuartoOn: false,
         ventiladorOn: false,
         ventiladorVelocidade: 1,
         cortinasAbertas: false
+    }
+};
+
+// Função para verificar a temperatura da geladeira
+const verificarTemperaturaGeladeira = () => {
+    const limiteTemperatura = 5; // Limite de temperatura da geladeira
+    if (dispositivos.cozinha.geladeiraTemperatura > limiteTemperatura) {
+        dispositivos.cozinha.alertaGeladeira = true; // Ativar alerta
+        io.emit('alertaGeladeira', `Alerta: A temperatura da geladeira está alta: ${dispositivos.cozinha.geladeiraTemperatura}°C`);
+    } else {
+        dispositivos.cozinha.alertaGeladeira = false; // Desativar alerta
     }
 };
 
@@ -70,8 +84,19 @@ io.on('connection', (socket) => {
         io.emit('estadoAltera', dispositivos);
     });
 
+    socket.on('ajustarTemperaturaGeladeira', (novaTemperatura: number) => {
+        dispositivos.cozinha.geladeiraTemperatura = novaTemperatura;
+        io.emit('estadoAltera', dispositivos);
+        verificarTemperaturaGeladeira(); // Verifica a temperatura da geladeira
+    });
+
     socket.on('ligarFogao', () => {
         dispositivos.cozinha.fogaoOn = !dispositivos.cozinha.fogaoOn;
+        io.emit('estadoAltera', dispositivos);
+    });
+
+    socket.on('ajustarPotenciaFogao', (novaPotencia: number) => {
+        dispositivos.cozinha.fogaoPotencia = novaPotencia;
         io.emit('estadoAltera', dispositivos);
     });
 
@@ -86,7 +111,7 @@ io.on('connection', (socket) => {
         io.emit('estadoAltera', dispositivos);
     });
 
-    socket.on('ajustarVelocidadeVentilador', (novaVelocidade) => {
+    socket.on('ajustarVelocidadeVentilador', (novaVelocidade: number) => {
         dispositivos.quarto.ventiladorVelocidade = novaVelocidade;
         io.emit('estadoAltera', dispositivos);
     });

@@ -15,15 +15,16 @@ interface EstadoDispositivo {
   sala: {
     luzOn: boolean,
     arOn: boolean,
-    tvOn: boolean
+    tvOn: boolean,
+    tvCanal: number // Corrigido para number
   },
   cozinha: {
     luzCozinhaOn: boolean,
     geladeiraOn: boolean,
-    geladeiraTemperatura: number, // Adiciona a temperatura da geladeira
-    alertaGeladeira: boolean, // Estado do alerta da geladeira
+    geladeiraTemperatura: number,
+    alertaGeladeira: boolean,
     fogaoOn: boolean,
-    fogaoPotencia: number // Nível de potência do fogão
+    fogaoPotencia: number
   },
   quarto: {
     luzQuartoOn: boolean,
@@ -38,15 +39,16 @@ const App: React.FC = () => {
     sala: {
       luzOn: false,
       arOn: false,
-      tvOn: false
+      tvOn: false,
+      tvCanal: 1 // Inicializa o canal como 1
     },
     cozinha: {
       luzCozinhaOn: false,
       geladeiraOn: false,
-      geladeiraTemperatura: 0, // Inicializa a temperatura
-      alertaGeladeira: false, // Inicializa o alerta
+      geladeiraTemperatura: 0,
+      alertaGeladeira: false,
       fogaoOn: false,
-      fogaoPotencia: 1 // Inicializa a potência do fogão
+      fogaoPotencia: 1
     },
     quarto: {
       luzQuartoOn: false,
@@ -65,18 +67,12 @@ const App: React.FC = () => {
       setDispositivo(novoEstado);
     });
 
-    socket.on('alertaGeladeira', (mensagem: string) => {
-      alert(mensagem); // Exibe um alerta quando a temperatura da geladeira estiver acima do limite
-    });
-
     return () => {
       socket.off('estadoInicial');
       socket.off('estadoAltera');
-      socket.off('alertaGeladeira');
     };
   }, []);
 
-  // Funções para a Sala
   const acenderLuzSala = () => {
     socket.emit('acenderLuzSala');
   };
@@ -87,6 +83,10 @@ const App: React.FC = () => {
 
   const ligarTV = () => {
     socket.emit('ligarTV');
+  };
+
+  const mudarCanal = (novoCanal: number) => {
+    socket.emit('mudarCanal', novoCanal);
   };
 
   // Funções para a Cozinha
@@ -142,7 +142,6 @@ const App: React.FC = () => {
           <img
             src={luz}
             className={`status ${dispositivo.sala.luzOn ? 'on' : 'off'}`}
-            alt="Estado da Luz"
           />
         </div>
 
@@ -154,7 +153,6 @@ const App: React.FC = () => {
           <img
             src={ar}
             className={`status ${dispositivo.sala.arOn ? 'on' : 'off'}`}
-            alt="Estado do Ar-Condicionado"
           />
         </div>
 
@@ -163,11 +161,36 @@ const App: React.FC = () => {
           <button onClick={ligarTV}>
             {dispositivo.sala.tvOn ? 'Desligar Televisão' : 'Ligar Televisão'}
           </button>
-          <img
-            src={tv}
-            className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
-            alt="Estado da Televisão"
-          />
+
+          {dispositivo.sala.tvOn && (
+            <>
+              <p>
+                Canal:
+                <select
+                  value={dispositivo.sala.tvCanal}
+                  onChange={(e) => mudarCanal(Number(e.target.value))}
+                >
+                  {[1, 2, 3, 4, 5].map((canal) => (
+                    <option key={canal} value={canal}>{canal}</option>
+                  ))}
+                </select>
+              </p>
+
+              <div className={`tv-container`}>
+                {dispositivo.sala.tvOn && (
+                  <>
+                    <div className={`canal canal-${dispositivo.sala.tvCanal}`} />
+                    <img
+                      src={tv}
+                      className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
+                      alt="Televisão"
+                    />
+                  </>
+                )}
+              </div>
+
+            </>
+          )}
         </div>
       </div>
 
@@ -182,7 +205,6 @@ const App: React.FC = () => {
           <img
             src={luz}
             className={`status ${dispositivo.cozinha.luzCozinhaOn ? 'on' : 'off'}`}
-            alt="Estado da Luz da Cozinha"
           />
         </div>
 
@@ -191,17 +213,16 @@ const App: React.FC = () => {
           <button onClick={ligarGeladeira}>
             {dispositivo.cozinha.geladeiraOn ? 'Fechar Geladeira' : 'Abrir Geladeira'}
           </button>
+          <img
+            src={geladeira}
+            className={`status ${dispositivo.cozinha.geladeiraOn ? 'on' : 'off'}`}
+          />
           <p>Temperatura: {dispositivo.cozinha.geladeiraTemperatura.toFixed(1)}°C</p>
           <input
             type="number"
             value={dispositivo.cozinha.geladeiraTemperatura}
             onChange={(e) => ajustarTemperaturaGeladeira(Number(e.target.value))}
             placeholder="Ajustar Temperatura"
-          />
-          <img
-            src={geladeira}
-            className={`status ${dispositivo.cozinha.geladeiraOn ? 'on' : 'off'}`}
-            alt="Estado da Geladeira"
           />
         </div>
 
@@ -223,13 +244,13 @@ const App: React.FC = () => {
           </p>
           <div className={`fogao-container ${dispositivo.cozinha.fogaoOn ? 'on' : 'off'}`}>
             {dispositivo.cozinha.fogaoOn && (
-              <div className={`fire potencia-${dispositivo.cozinha.fogaoPotencia}`} />
+              <>
+                <div className={`fire potencia-${dispositivo.cozinha.fogaoPotencia}`} />
+                <img src={fogao} className="status" />
+              </>
             )}
-            <img src={fogao} alt="Fogão" className="status" />
           </div>
-
         </div>
-
       </div>
 
       {/* Quarto */}
@@ -243,7 +264,6 @@ const App: React.FC = () => {
           <img
             src={luz}
             className={`status ${dispositivo.quarto.luzQuartoOn ? 'on' : 'off'}`}
-            alt="Estado da Luz do Quarto"
           />
         </div>
 
@@ -252,18 +272,20 @@ const App: React.FC = () => {
           <button onClick={ligarVentilador}>
             {dispositivo.quarto.ventiladorOn ? 'Desligar Ventilador' : 'Ligar Ventilador'}
           </button>
-          <div>
-            <label>Velocidade:</label>
-            <select value={dispositivo.quarto.ventiladorVelocidade} onChange={(e) => ajustarVelocidadeVentilador(Number(e.target.value))}>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
+          <p>
+            Velocidade:
+            <select
+              value={dispositivo.quarto.ventiladorVelocidade}
+              onChange={(e) => ajustarVelocidadeVentilador(Number(e.target.value))}
+            >
+              {[1, 2, 3].map((velocidade) => (
+                <option key={velocidade} value={velocidade}>{velocidade}</option>
+              ))}
             </select>
-          </div>
+          </p>
           <img
             src={ventilador}
             className={`status ${dispositivo.quarto.ventiladorOn ? 'on' : 'off'}`}
-            alt="Estado do Ventilador"
           />
         </div>
 
@@ -275,7 +297,6 @@ const App: React.FC = () => {
           <img
             src={cortinas}
             className={`status ${dispositivo.quarto.cortinasAbertas ? 'on' : 'off'}`}
-            alt="Estado das Cortinas"
           />
         </div>
       </div>

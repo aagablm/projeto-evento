@@ -9,8 +9,13 @@ h2 {
   text-align: center;
 }
 
-p {
+p,
+label,
+select {
   font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 button {
@@ -18,6 +23,11 @@ button {
   padding: 8px;
   color: white;
   background-color: #383838;
+  margin: 5px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 button:hover {
@@ -35,7 +45,7 @@ button:hover {
   flex-direction: row;
   justify-content: space-around;
   width: 80%;
-  height: 200px;
+  height: 170px;
   border: 2px solid white;
   border-radius: 10px;
   vertical-align: top;
@@ -70,6 +80,7 @@ img {
   display: none;
 }
 
+/*animacao chama*/
 .fogao-container {
   position: relative;
 }
@@ -103,7 +114,6 @@ img {
   }
 }
 
-/* Potência */
 .potencia-1 {
   height: 80px;
 }
@@ -120,3 +130,32 @@ img {
   height: 95px;
 }
 
+/*animação onda*/
+.wave {
+  position: absolute;
+  bottom: 40px; 
+  left: 50%; 
+  width: 90%; 
+  height: 40px; 
+  background: radial-gradient(circle, rgba(212, 236, 245, 0.9) 0%, rgba(136, 143, 145, 0) 70%);
+  border-radius: 50%;
+  opacity: 0.8; 
+  z-index: 1;
+}
+
+@keyframes wave {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.ventilador-1 {
+  animation: wave 3s infinite linear;
+}
+
+.ventilador-2 {
+  animation: wave 2s infinite linear;
+}
+
+.ventilador-3 {
+  animation: wave 1s infinite linear;
+}

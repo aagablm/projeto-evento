@@ -183,7 +183,7 @@ const App: React.FC = () => {
                     <img
                       src={tv}
                       className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
-                      alt="Televisão"
+
                     />
                   </>
                 )}
@@ -266,7 +266,6 @@ const App: React.FC = () => {
             className={`status ${dispositivo.quarto.luzQuartoOn ? 'on' : 'off'}`}
           />
         </div>
-
         <div className='ventilador'>
           <p>Ventilador</p>
           <button onClick={ligarVentilador}>
@@ -283,10 +282,16 @@ const App: React.FC = () => {
               ))}
             </select>
           </p>
-          <img
-            src={ventilador}
-            className={`status ${dispositivo.quarto.ventiladorOn ? 'on' : 'off'}`}
-          />
+          <div className={`velocidade velocidade-${dispositivo.quarto.ventiladorVelocidade}`}>
+            {dispositivo.quarto.ventiladorOn && (
+              <div className="wave" />
+            )}
+            <img
+              src={ventilador}
+              className={`status ${dispositivo.quarto.ventiladorOn ? 'on' : 'off'}`}
+            />
+          </div>
+
         </div>
 
         <div className='cortinas'>

@@ -130,16 +130,18 @@ img {
   height: 95px;
 }
 
-/*animação onda*/
+.velocidade {
+  position: relative; /* Para que a animação esteja em relação a este elemento */
+}
+
 .wave {
-  position: absolute;
-  bottom: 40px; 
-  left: 50%; 
-  width: 90%; 
+  position: absolute; 
+  left: 20%;
+  width: 70%; 
   height: 40px; 
-  background: radial-gradient(circle, rgba(212, 236, 245, 0.9) 0%, rgba(136, 143, 145, 0) 70%);
+  background: radial-gradient(circle, rgba(181, 234, 253, 0.9) 0%, rgba(136, 143, 145, 0) 70%);
   border-radius: 50%;
-  opacity: 0.8; 
+  
   z-index: 1;
 }
 
@@ -148,14 +150,17 @@ img {
   100% { transform: translateX(0); }
 }
 
-.ventilador-1 {
+.velocidade-1 .wave {
   animation: wave 3s infinite linear;
 }
 
-.ventilador-2 {
+.velocidade-2 .wave {
   animation: wave 2s infinite linear;
 }
 
-.ventilador-3 {
+.velocidade-3 .wave {
   animation: wave 1s infinite linear;
 }
+
+
+/* animação televisão*/

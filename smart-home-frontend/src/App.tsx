@@ -181,16 +181,7 @@ const App: React.FC = () => {
   <div className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}>
     {dispositivo.sala.tvOn && (
       <>
-        <div className={`tv-animation canal-${dispositivo.sala.tvCanal}`} />
-        <img
-          src={tv}
-          className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
-          alt="Televisão"
-        />
-      </>
-    )}
-  </div>
-  <div>
+      <div>
     <p>Canal:
     <select
       value={dispositivo.sala.tvCanal}
@@ -202,11 +193,17 @@ const App: React.FC = () => {
     </select>
     </p>
   </div>
+        <div className={`tv-animation canal-${dispositivo.sala.tvCanal}`} />
+        <img
+          src={tv}
+          className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
+          alt="Televisão"
+        />
+      </>
+    )}
+  </div>
 </div>
-
-          
-        
-      </div>
+</div>
 
       {/* Cozinha */}
       <h2>Cozinha</h2>

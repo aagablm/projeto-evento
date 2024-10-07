@@ -1,21 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;600;700&display=swap');
 
 * {
+  box-sizing: border-box;
+}
+
+body {
   font-family: "Inter", sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+}
+
+.casa {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
 h1,
 h2 {
   text-align: center;
+  color: #333;
+}
+
+h2 {
+  margin-top: 20px;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 10px;
 }
 
 p,
 label,
 select {
   font-weight: 600;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
 }
 
 button {
@@ -24,35 +44,27 @@ button {
   color: white;
   background-color: #383838;
   margin: 5px;
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  transition: background-color 150ms, opacity 150ms;
 }
 
 button:hover {
   cursor: pointer;
-  transition: all 150ms linear;
-  opacity: .85;
+  opacity: 0.85;
 }
 
 .sala,
 .quarto,
 .cozinha {
-  margin: 0 auto;
-  padding: 5%;
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  /* Permite que os itens se movam para a próxima linha */
   justify-content: space-around;
-  width: 80%;
-  height: 170px;
+  /* Espaça os itens uniformemente */
+  margin: 20px 0;
+  padding: 10px;
   border: 2px solid white;
   border-radius: 10px;
-  vertical-align: top;
-  max-height: 100%;
-  -webkit-box-shadow: 0px 3px 5px 0px rgba(184, 175, 184, 1);
-  -moz-box-shadow: 0px 3px 5px 0px rgba(184, 175, 184, 1);
-  box-shadow: 0px 3px 5px 0px rgba(184, 175, 184, 1);
+  box-shadow: 0 3px 5px rgba(184, 175, 184, 1);
 }
 
 .luz,
@@ -61,16 +73,22 @@ button:hover {
 .geladeira,
 .tv,
 .ventilador,
-.cortina {
-  width: 20%;
-  height: 20%;
+.cortinas {
+  flex: 1 1 calc(30% - 20px);
+  /* Flexível com base na largura do container */
+  margin: 10px;
+  /* Espaço entre os itens */
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  /* Centraliza o conteúdo */
 }
 
 img {
   width: 90px;
   height: 90px;
 }
-
 
 .status.on {
   display: block;
@@ -80,7 +98,7 @@ img {
   display: none;
 }
 
-/*animacao chama*/
+/* Animações e Estilos Especiais */
 .fogao-container {
   position: relative;
 }
@@ -88,19 +106,21 @@ img {
 .fire {
   position: absolute;
   bottom: 15px;
-  left: 15%;
-  width: 40px; 
-  height: 300px; 
+  left: 40%;
+  width: 40px;
+  height: 300px;
   background: radial-gradient(circle, rgba(255, 165, 0, 0.9) 0%, rgba(255, 0, 0, 0) 70%);
   border-radius: 50%;
   animation: flame 0.8s infinite alternate;
-  opacity: 0.8; 
-  z-index: 1; /* Faz a chama ficar atrás */
+  opacity: 0.8;
+  z-index: 1;
+  /* Chama deve ficar atrás */
 }
 
 .status {
-  position: relative; 
-  z-index: 2; /* Imagem do fogão deve estar acima da chama */
+  position: relative;
+  z-index: 2;
+  /* Imagem deve estar acima da chama */
 }
 
 @keyframes flame {
@@ -108,28 +128,35 @@ img {
     transform: translateY(0) scale(1);
     opacity: 0.8;
   }
+
   100% {
     transform: translateY(-10px) scale(1.2);
     opacity: 1;
   }
 }
 
+/* Potência do fogão */
 .potencia-1 {
   height: 80px;
 }
+
 .potencia-2 {
   height: 80px;
 }
+
 .potencia-3 {
   height: 85px;
 }
+
 .potencia-4 {
   height: 90px;
 }
+
 .potencia-5 {
   height: 95px;
 }
 
+/* Animação do Ventilador */
 .velocidade {
   position: relative; /* Para que a animação esteja em relação a este elemento */
 }
@@ -163,28 +190,31 @@ img {
 }
 
 
-/* animação televisão*/
+/* Animação da Televisão */
 .tv-animation {
   position: absolute;
   left: 14%;
   bottom: 27%;
-  width: 30px; 
-  height: 30px; 
+  width: 30px;
+  height: 30px;
   background: radial-gradient(circle, rgba(253, 212, 99, 0.9) 0%, rgba(255, 242, 63, 0) 70%);
-  border-radius: 50px; 
-  z-index: 2; 
-  opacity: 0.7; 
-  animation: tvGlow 1s infinite alternate; 
+  border-radius: 50px;
+  z-index: 2;
+  opacity: 0.7;
+  animation: tvGlow 1s infinite alternate;
 }
 
 @keyframes tvGlow {
   0% {
     transform: scale(1);
   }
+
   100% {
     transform: scale(1.05);
   }
 }
+
+/* Estilos dos canais da TV */
 .canal-1 {
   background: radial-gradient(circle, rgba(253, 99, 176, 0.9) 0%, rgba(255, 63, 213, 0) 70%);
 }
@@ -203,4 +233,28 @@ img {
 
 .canal-5 {
   background: radial-gradient(circle, rgba(253, 99, 99, 0.9) 0%, rgba(255, 63, 63, 0) 70%);
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+
+  .sala,
+  .cozinha,
+  .quarto {
+    flex-direction: column;
+    /* Alinha os itens verticalmente em telas menores */
+    height: auto;
+    /* Permite que o container se expanda conforme necessário */
+  }
+
+  .luz,
+  .fogao,
+  .ar,
+  .geladeira,
+  .tv,
+  .ventilador,
+  .cortinas {
+    width: 100%;
+    /* Itens ocupam toda a largura do container */
+  }
 }

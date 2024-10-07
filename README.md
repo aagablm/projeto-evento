@@ -1,5 +1,7 @@
 # Projeto Eventos 
 
+![image](https://github.com/user-attachments/assets/f16acec5-38f7-4d45-8722-dcb5831fe721)
+
 
 Este projeto simula uma casa inteligente, permitindo o controle remoto de dispositivos através de uma interface web. Com diferentes cômodos, cada um equipado com dispositivos conectados, os usuários podem interagir em tempo real. A comunicação WebSocket é utilizada para refletir as alterações de estado em múltiplos clientes simultaneamente.
 

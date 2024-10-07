@@ -56,7 +56,7 @@ const App: React.FC = () => {
     cozinha: {
       luzCozinhaOn: false,
       geladeiraOn: false,
-      geladeiraTemperatura: 0,
+      geladeiraTemperatura: 5,
       alertaGeladeira: false,
       fogaoOn: false,
       fogaoPotencia: 1
@@ -149,7 +149,7 @@ const App: React.FC = () => {
       <h1>Casa Inteligente</h1>
 
       {/* Sala */}
-      <h2>Sala</h2>
+      <h3>Sala</h3>
       <div className="sala">
         <div className='luz'>
           <p>Luz</p>
@@ -193,7 +193,7 @@ const App: React.FC = () => {
             {dispositivo.sala.tvOn ? (
               <>
                 <div>
-                  <p>Canal:
+                  <p>Canal
                     <select
                       value={dispositivo.sala.tvCanal}
                       onChange={(e) => mudarCanal(Number(e.target.value))}
@@ -205,7 +205,7 @@ const App: React.FC = () => {
                   </p>
                 </div>
                 <div className={`tv-animation canal-${dispositivo.sala.tvCanal}`} />
-                <img 
+                <img
                   src={
                     dispositivo.sala.tvCanal === 1 ? canal1 :
                       dispositivo.sala.tvCanal === 2 ? canal2 :
@@ -228,16 +228,17 @@ const App: React.FC = () => {
       </div>
 
       {/* Cozinha */}
-      <h2>Cozinha</h2>
+      <h3>Cozinha</h3>
       <div className="cozinha">
         <div className='luz'>
           <p>Luz</p>
           <button onClick={acenderLuzCozinha}>
             {dispositivo.cozinha.luzCozinhaOn ? 'Desligar Luz' : 'Ligar Luz'}
           </button>
+          <div></div>
           <img
-            src={luz}
-            className={`status ${dispositivo.cozinha.luzCozinhaOn ? 'on' : 'off'}`}
+            src={dispositivo.cozinha.luzCozinhaOn ? luz : luzDesligada}
+            className='status'
           />
         </div>
 
@@ -246,14 +247,20 @@ const App: React.FC = () => {
           <button onClick={ligarGeladeira}>
             {dispositivo.cozinha.geladeiraOn ? 'Fechar Geladeira' : 'Abrir Geladeira'}
           </button>
-          <p>Temperatura:
+          <p>Temperatura
             <input
               type="number"
               value={dispositivo.cozinha.geladeiraTemperatura}
               onChange={(e) => ajustarTemperaturaGeladeira(Number(e.target.value))}
-              placeholder="Ajustar Temperatura"
+              style={{ width: '50px' }}
             /></p>
-            <img
+          <div className="alerta-geladeira">
+            {dispositivo.cozinha.alertaGeladeira && (
+              <p style={{ color: 'red' }}>Alerta: A temperatura da geladeira está alta!</p>
+            )}
+          </div>
+
+          <img
             src={dispositivo.cozinha.geladeiraOn ? geladeira : geladeiraFechada}
             className='status'
           />
@@ -265,7 +272,7 @@ const App: React.FC = () => {
             {dispositivo.cozinha.fogaoOn ? 'Desligar Fogão' : 'Ligar Fogão'}
           </button>
           <p>
-            Potência:
+            Potência
             <select
               value={dispositivo.cozinha.fogaoPotencia}
               onChange={(e) => ajustarPotenciaFogao(Number(e.target.value))}
@@ -287,25 +294,27 @@ const App: React.FC = () => {
       </div>
 
       {/* Quarto */}
-      <h2>Quarto</h2>
+      <h3>Quarto</h3>
       <div className="quarto">
         <div className='luz'>
           <p>Luz</p>
           <button onClick={acenderLuzQuarto}>
             {dispositivo.quarto.luzQuartoOn ? 'Desligar Luz' : 'Ligar Luz'}
           </button>
+          <div></div>
           <img
-            src={luz}
-            className={`status ${dispositivo.quarto.luzQuartoOn ? 'on' : 'off'}`}
+            src={dispositivo.quarto.luzQuartoOn ? luz : luzDesligada}
+            className='status'
           />
         </div>
+
         <div className='ventilador'>
           <p>Ventilador</p>
           <button onClick={ligarVentilador}>
             {dispositivo.quarto.ventiladorOn ? 'Desligar Ventilador' : 'Ligar Ventilador'}
           </button>
           <p>
-            Velocidade:
+            Velocidade
             <select
               value={dispositivo.quarto.ventiladorVelocidade}
               onChange={(e) => ajustarVelocidadeVentilador(Number(e.target.value))}
@@ -336,11 +345,17 @@ const App: React.FC = () => {
             className='status'
           />
         </div>
-
-
-
       </div>
+      <footer>
+        <p className="rodape">Desenvolvido por Ana Gabriela Lima</p>
+      </footer>
     </div>
+
+
+
+
+
+
   );
 }
 

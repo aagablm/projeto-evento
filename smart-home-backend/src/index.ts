@@ -30,7 +30,7 @@ let dispositivos = {
         geladeiraTemperatura: 6, // Temperatura inicial
         alertaGeladeira: false, // Alerta da geladeira
         fogaoOn: false,
-        fogaoPotencia: 1 
+        fogaoPotencia: 1
     },
     quarto: {
         luzQuartoOn: false,
@@ -40,16 +40,7 @@ let dispositivos = {
     }
 };
 
-// Função para verificar a temperatura da geladeira
-const verificarTemperaturaGeladeira = () => {
-    const limiteTemperatura = 5; // Limite de temperatura da geladeira
-    if (dispositivos.cozinha.geladeiraTemperatura > limiteTemperatura) {
-        dispositivos.cozinha.alertaGeladeira = true; // Ativar alerta
-        io.emit('alertaGeladeira', `Alerta: A temperatura da geladeira está alta: ${dispositivos.cozinha.geladeiraTemperatura}°C`);
-    } else {
-        dispositivos.cozinha.alertaGeladeira = false; // Desativar alerta
-    }
-};
+
 
 // Escuta os eventos de conexão do socket
 io.on('connection', (socket) => {
@@ -83,11 +74,11 @@ io.on('connection', (socket) => {
     });
     socket.on('mudarCanal', (novoCanal: number) => {
         if (dispositivos.sala.tvOn) { // Verifica se a TV está ligada
-          dispositivos.sala.tvCanal = novoCanal;
-          io.emit('estadoAltera', dispositivos);
+            dispositivos.sala.tvCanal = novoCanal;
+            io.emit('estadoAltera', dispositivos);
         }
-      });
-      
+    });
+
     // Cozinha
     socket.on('acenderLuzCozinha', () => {
         dispositivos.cozinha.luzCozinhaOn = !dispositivos.cozinha.luzCozinhaOn;
@@ -98,6 +89,16 @@ io.on('connection', (socket) => {
         dispositivos.cozinha.geladeiraOn = !dispositivos.cozinha.geladeiraOn;
         io.emit('estadoAltera', dispositivos);
     });
+    // Função para verificar a temperatura da geladeira
+    const verificarTemperaturaGeladeira = () => {
+        const limiteTemperatura = 5; 
+        if (dispositivos.cozinha.geladeiraTemperatura > limiteTemperatura) {
+            dispositivos.cozinha.alertaGeladeira = true; 
+            io.emit('alertaGeladeira', `Alerta: A temperatura da geladeira está alta: ${dispositivos.cozinha.geladeiraTemperatura}°C`);
+        } else {
+            dispositivos.cozinha.alertaGeladeira = false;
+        }
+    };
 
     socket.on('ajustarTemperaturaGeladeira', (novaTemperatura) => {
         dispositivos.cozinha.geladeiraTemperatura = novaTemperatura;

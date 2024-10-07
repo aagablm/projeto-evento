@@ -6,7 +6,7 @@
 
 body {
   font-family: "Inter", sans-serif;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   margin: 0;
   padding: 20px;
 }
@@ -14,14 +14,14 @@ body {
 .casa {
   max-width: 1000px;
   margin: 0 auto;
-  background: #fff;
+  background: #f0f0f0;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
 
 h1,
-h2 {
+h3 {
   text-align: center;
   color: #333;
 }
@@ -36,6 +36,16 @@ p,
 label,
 select {
   font-weight: 600;
+}
+
+.rodape{
+  text-align: center;
+  font-size: 10px;
+  color: #3c3b3b;
+}
+
+input{
+  right: 2px;
 }
 
 button {

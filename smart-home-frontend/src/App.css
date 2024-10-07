@@ -1,16 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
 h1,
 h2 {
   text-align: center;
 }
 
-button{
- border-radius: 15px;
- padding: 5px;
- color: white;
- background-color: #383838;
+p {
+  font-weight: 600;
 }
 
-button:hover{
+button {
+  border-radius: 15px;
+  padding: 8px;
+  color: white;
+  background-color: #383838;
+}
+
+button:hover {
+  cursor: pointer;
   transition: all 150ms linear;
   opacity: .85;
 }
@@ -24,7 +35,7 @@ button:hover{
   flex-direction: row;
   justify-content: space-around;
   width: 80%;
-  height: 150px;
+  height: 200px;
   border: 2px solid white;
   border-radius: 10px;
   vertical-align: top;
@@ -58,3 +69,54 @@ img {
 .status.off {
   display: none;
 }
+
+.fogao-container {
+  position: relative;
+}
+
+.fire {
+  position: absolute;
+  bottom: 15px;
+  left: 15%;
+  width: 40px; 
+  height: 300px; 
+  background: radial-gradient(circle, rgba(255, 165, 0, 0.9) 0%, rgba(255, 0, 0, 0) 70%);
+  border-radius: 50%;
+  animation: flame 0.8s infinite alternate;
+  opacity: 0.8; 
+  z-index: 1; /* Faz a chama ficar atrás */
+}
+
+.status {
+  position: relative; 
+  z-index: 2; /* Imagem do fogão deve estar acima da chama */
+}
+
+@keyframes flame {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-10px) scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Potência */
+.potencia-1 {
+  height: 80px;
+}
+.potencia-2 {
+  height: 80px;
+}
+.potencia-3 {
+  height: 85px;
+}
+.potencia-4 {
+  height: 90px;
+}
+.potencia-5 {
+  height: 95px;
+}
+

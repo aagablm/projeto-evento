@@ -7,7 +7,7 @@ import tv from './imagens/tv.png';
 import geladeira from './imagens/geladeira.png';
 import fogao from './imagens/fogao.png';
 import ventilador from './imagens/ventilador.png';
-import cortinas from './imagens/cortina.png'; 
+import cortinas from './imagens/cortina.png';
 
 const socket = io('http://localhost:4000');
 
@@ -130,7 +130,7 @@ const App: React.FC = () => {
   return (
     <div className='casa'>
       <h1>Casa Inteligente</h1>
-      
+
       {/* Sala */}
       <h2>Sala</h2>
       <div className="sala">
@@ -166,10 +166,11 @@ const App: React.FC = () => {
           <img
             src={tv}
             className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
+            alt="Estado da Televisão"
           />
         </div>
       </div>
-      
+
       {/* Cozinha */}
       <h2>Cozinha</h2>
       <div className="cozinha">
@@ -186,20 +187,21 @@ const App: React.FC = () => {
         </div>
 
         <div className='geladeira'>
-        <p>Geladeira</p>
+          <p>Geladeira</p>
           <button onClick={ligarGeladeira}>
             {dispositivo.cozinha.geladeiraOn ? 'Fechar Geladeira' : 'Abrir Geladeira'}
           </button>
           <p>Temperatura: {dispositivo.cozinha.geladeiraTemperatura.toFixed(1)}°C</p>
-          <input 
-            type="number" 
-            value={dispositivo.cozinha.geladeiraTemperatura} 
-            onChange={(e) => ajustarTemperaturaGeladeira(Number(e.target.value))} 
+          <input
+            type="number"
+            value={dispositivo.cozinha.geladeiraTemperatura}
+            onChange={(e) => ajustarTemperaturaGeladeira(Number(e.target.value))}
             placeholder="Ajustar Temperatura"
           />
           <img
             src={geladeira}
             className={`status ${dispositivo.cozinha.geladeiraOn ? 'on' : 'off'}`}
+            alt="Estado da Geladeira"
           />
         </div>
 
@@ -208,25 +210,28 @@ const App: React.FC = () => {
           <button onClick={ligarFogao}>
             {dispositivo.cozinha.fogaoOn ? 'Desligar Fogão' : 'Ligar Fogão'}
           </button>
-          <p>Potência: 
-            <select 
-              value={dispositivo.cozinha.fogaoPotencia} 
+          <p>
+            Potência:
+            <select
+              value={dispositivo.cozinha.fogaoPotencia}
               onChange={(e) => ajustarPotenciaFogao(Number(e.target.value))}
             >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
+              {[1, 2, 3, 4, 5].map((potencia) => (
+                <option key={potencia} value={potencia}>{potencia}</option>
+              ))}
             </select>
           </p>
-          <img
-            src={fogao}
-            className={`status ${dispositivo.cozinha.fogaoOn ? 'on' : 'off'}`}
-          />
+          <div className={`fogao-container ${dispositivo.cozinha.fogaoOn ? 'on' : 'off'}`}>
+            {dispositivo.cozinha.fogaoOn && (
+              <div className={`fire potencia-${dispositivo.cozinha.fogaoPotencia}`} />
+            )}
+            <img src={fogao} alt="Fogão" className="status" />
+          </div>
+
         </div>
+
       </div>
-      
+
       {/* Quarto */}
       <h2>Quarto</h2>
       <div className="quarto">

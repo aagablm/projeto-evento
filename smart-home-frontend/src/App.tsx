@@ -186,8 +186,9 @@ const App: React.FC = () => {
         </div>
 
         <div className='geladeira'>
+        <p>Geladeira</p>
           <button onClick={ligarGeladeira}>
-            {dispositivo.cozinha.geladeiraOn ? 'Abrir Geladeira' : 'Fechar Geladeira'}
+            {dispositivo.cozinha.geladeiraOn ? 'Fechar Geladeira' : 'Abrir Geladeira'}
           </button>
           <p>Temperatura: {dispositivo.cozinha.geladeiraTemperatura.toFixed(1)}°C</p>
           <input 

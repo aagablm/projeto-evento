@@ -21,7 +21,8 @@ let dispositivos = {
         luzOn: false,
         arOn: false,
         arTemperatura: 24, // Temperatura inicial do ar-condicionado
-        tvOn: false
+        tvOn: false,
+        tvCanal: 1
     },
     cozinha: {
         luzCozinhaOn: false,
@@ -80,7 +81,13 @@ io.on('connection', (socket) => {
         dispositivos.sala.tvOn = !dispositivos.sala.tvOn;
         io.emit('estadoAltera', dispositivos);
     });
-
+    socket.on('mudarCanal', (novoCanal: number) => {
+        if (dispositivos.sala.tvOn) { // Verifica se a TV está ligada
+          dispositivos.sala.tvCanal = novoCanal;
+          io.emit('estadoAltera', dispositivos);
+        }
+      });
+      
     // Cozinha
     socket.on('acenderLuzCozinha', () => {
         dispositivos.cozinha.luzCozinhaOn = !dispositivos.cozinha.luzCozinhaOn;

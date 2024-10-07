@@ -173,41 +173,39 @@ const App: React.FC = () => {
             className={`status ${dispositivo.sala.arOn ? 'on' : 'off'}`}
           />
         </div>
-
         <div className='tv'>
-          <p>Televisão</p>
-          <button onClick={ligarTV}>
-            {dispositivo.sala.tvOn ? 'Desligar Televisão' : 'Ligar Televisão'}
-          </button>
+  <p>Televisão</p>
+  <button onClick={ligarTV}>
+    {dispositivo.sala.tvOn ? 'Desligar Televisão' : 'Ligar Televisão'}
+  </button>
+  <div className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}>
+    {dispositivo.sala.tvOn && (
+      <>
+        <div className={`tv-animation canal-${dispositivo.sala.tvCanal}`} />
+        <img
+          src={tv}
+          className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
+          alt="Televisão"
+        />
+      </>
+    )}
+  </div>
+  <div>
+    <p>Canal:
+    <select
+      value={dispositivo.sala.tvCanal}
+      onChange={(e) => mudarCanal(Number(e.target.value))}
+    >
+      {[1, 2, 3, 4, 5].map((canal) => (
+        <option key={canal} value={canal}>{`Canal ${canal}`}</option>
+      ))}
+    </select>
+    </p>
+  </div>
+</div>
 
-          {dispositivo.sala.tvOn && (
-            <>
-              <p>
-                Canal:
-                <select
-                  value={dispositivo.sala.tvCanal}
-                  onChange={(e) => mudarCanal(Number(e.target.value))}
-                >
-                  {[1, 2, 3, 4, 5].map((canal) => (
-                    <option key={canal} value={canal}>{canal}</option>
-                  ))}
-                </select>
-              </p>
-
-              <div className={`tv-container`}>
-                {dispositivo.sala.tvOn && (
-                  <>
-                    <div className={`canal canal-${dispositivo.sala.tvCanal}`} />
-                    <img
-                      src={tv}
-                      className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
-                    />
-                  </>
-                )}
-              </div>
-            </>
-          )}
-        </div>
+          
+        
       </div>
 
       {/* Cozinha */}

@@ -8,6 +8,7 @@ import geladeira from './imagens/geladeira.png';
 import fogao from './imagens/fogao.png';
 import ventilador from './imagens/ventilador.png';
 import cortinas from './imagens/cortina.png';
+import cortinaFechada from './imagens/cortinaFechada.png';
 
 const socket = io('http://localhost:4000');
 
@@ -83,9 +84,9 @@ const App: React.FC = () => {
     socket.emit('ligarAr');
   };
 
-  const ajustarAr = (novaTemperatura: number) => {
-    if (novaTemperatura >= 18 && novaTemperatura <= 30) {
-      socket.emit('ajustarAr', novaTemperatura);
+  const ajustarAr = (novaTemperaturaAr: number) => {
+    if (novaTemperaturaAr >= 18 && novaTemperaturaAr <= 30) {
+      socket.emit('ajustarAr', novaTemperaturaAr);
     }
   };
 
@@ -106,8 +107,8 @@ const App: React.FC = () => {
     socket.emit('ligarGeladeira');
   };
 
-  const ajustarTemperaturaGeladeira = (novaTemperatura: number) => {
-    socket.emit('ajustarTemperaturaGeladeira', novaTemperatura);
+  const ajustarTemperaturaGeladeira = (novaTemperaturaGeladeira: number) => {
+    socket.emit('ajustarTemperaturaGeladeira', novaTemperaturaGeladeira);
   };
 
   const ligarFogao = () => {
@@ -174,36 +175,36 @@ const App: React.FC = () => {
           />
         </div>
         <div className='tv'>
-  <p>Televisão</p>
-  <button onClick={ligarTV}>
-    {dispositivo.sala.tvOn ? 'Desligar Televisão' : 'Ligar Televisão'}
-  </button>
-  <div className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}>
-    {dispositivo.sala.tvOn && (
-      <>
-      <div>
-    <p>Canal:
-    <select
-      value={dispositivo.sala.tvCanal}
-      onChange={(e) => mudarCanal(Number(e.target.value))}
-    >
-      {[1, 2, 3, 4, 5].map((canal) => (
-        <option key={canal} value={canal}>{`Canal ${canal}`}</option>
-      ))}
-    </select>
-    </p>
-  </div>
-        <div className={`tv-animation canal-${dispositivo.sala.tvCanal}`} />
-        <img
-          src={tv}
-          className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
-          alt="Televisão"
-        />
-      </>
-    )}
-  </div>
-</div>
-</div>
+          <p>Televisão</p>
+          <button onClick={ligarTV}>
+            {dispositivo.sala.tvOn ? 'Desligar Televisão' : 'Ligar Televisão'}
+          </button>
+          <div className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}>
+            {dispositivo.sala.tvOn && (
+              <>
+                <div>
+                  <p>Canal:
+                    <select
+                      value={dispositivo.sala.tvCanal}
+                      onChange={(e) => mudarCanal(Number(e.target.value))}
+                    >
+                      {[1, 2, 3, 4, 5].map((canal) => (
+                        <option key={canal} value={canal}>{`Canal ${canal}`}</option>
+                      ))}
+                    </select>
+                  </p>
+                </div>
+                <div className={`tv-animation canal-${dispositivo.sala.tvCanal}`} />
+                <img
+                  src={tv}
+                  className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
+                  alt="Televisão"
+                />
+              </>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* Cozinha */}
       <h2>Cozinha</h2>
@@ -303,17 +304,20 @@ const App: React.FC = () => {
             />
           </div>
         </div>
-
         <div className='cortinas'>
           <p>Cortinas</p>
           <button onClick={abrirFecharCortinas}>
             {dispositivo.quarto.cortinasAbertas ? 'Fechar Cortinas' : 'Abrir Cortinas'}
           </button>
+          <div></div>
           <img
-            src={cortinas}
-            className={`status ${dispositivo.quarto.cortinasAbertas ? 'on' : 'off'}`}
+            src={dispositivo.quarto.cortinasAbertas ? cortinas : cortinaFechada}
+            className='status'
           />
         </div>
+
+
+
       </div>
     </div>
   );

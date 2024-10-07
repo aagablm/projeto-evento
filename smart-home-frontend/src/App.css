@@ -1,7 +1,29 @@
+h1, h2 {
+  text-align: center;
+}
+
+.sala, .quarto, .cozinha {
+  margin: 0 auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  max-width: 1024px;
+  width: 100%;
+}
+
+
+img {
+  width: 90px;
+  height: 90px;
+}
+
+
 .status.on {
   display: block;
 }
 
 .status.off {
-  display: none;
+  display: none; 
 }
+

@@ -20,6 +20,7 @@ let dispositivos = {
     sala: {
         luzOn: false,
         arOn: false,
+        arTemperatura: 24, // Temperatura inicial do ar-condicionado
         tvOn: false
     },
     cozinha: {
@@ -68,6 +69,13 @@ io.on('connection', (socket) => {
         io.emit('estadoAltera', dispositivos);
     });
 
+    socket.on('ajustarAr', (novaTemperatura) => {
+        if (novaTemperatura >= 18 && novaTemperatura <= 30) {
+            dispositivos.sala.arTemperatura = novaTemperatura;
+            io.emit('estadoAltera', dispositivos);
+        }
+    });
+
     socket.on('ligarTV', () => {
         dispositivos.sala.tvOn = !dispositivos.sala.tvOn;
         io.emit('estadoAltera', dispositivos);
@@ -84,7 +92,7 @@ io.on('connection', (socket) => {
         io.emit('estadoAltera', dispositivos);
     });
 
-    socket.on('ajustarTemperaturaGeladeira', (novaTemperatura: number) => {
+    socket.on('ajustarTemperaturaGeladeira', (novaTemperatura) => {
         dispositivos.cozinha.geladeiraTemperatura = novaTemperatura;
         io.emit('estadoAltera', dispositivos);
         verificarTemperaturaGeladeira(); // Verifica a temperatura da geladeira
@@ -95,7 +103,7 @@ io.on('connection', (socket) => {
         io.emit('estadoAltera', dispositivos);
     });
 
-    socket.on('ajustarPotenciaFogao', (novaPotencia: number) => {
+    socket.on('ajustarPotenciaFogao', (novaPotencia) => {
         dispositivos.cozinha.fogaoPotencia = novaPotencia;
         io.emit('estadoAltera', dispositivos);
     });
@@ -111,7 +119,7 @@ io.on('connection', (socket) => {
         io.emit('estadoAltera', dispositivos);
     });
 
-    socket.on('ajustarVelocidadeVentilador', (novaVelocidade: number) => {
+    socket.on('ajustarVelocidadeVentilador', (novaVelocidade) => {
         dispositivos.quarto.ventiladorVelocidade = novaVelocidade;
         io.emit('estadoAltera', dispositivos);
     });

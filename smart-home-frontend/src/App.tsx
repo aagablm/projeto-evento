@@ -15,8 +15,9 @@ interface EstadoDispositivo {
   sala: {
     luzOn: boolean,
     arOn: boolean,
+    arTemperatura: number, // Alterado para number
     tvOn: boolean,
-    tvCanal: number // Corrigido para number
+    tvCanal: number
   },
   cozinha: {
     luzCozinhaOn: boolean,
@@ -39,8 +40,9 @@ const App: React.FC = () => {
     sala: {
       luzOn: false,
       arOn: false,
+      arTemperatura: 24, // Inicializa a temperatura do ar-condicionado
       tvOn: false,
-      tvCanal: 1 // Inicializa o canal como 1
+      tvCanal: 1
     },
     cozinha: {
       luzCozinhaOn: false,
@@ -79,6 +81,12 @@ const App: React.FC = () => {
 
   const ligarAr = () => {
     socket.emit('ligarAr');
+  };
+
+  const ajustarAr = (novaTemperatura: number) => {
+    if (novaTemperatura >= 18 && novaTemperatura <= 30) {
+      socket.emit('ajustarAr', novaTemperatura);
+    }
   };
 
   const ligarTV = () => {
@@ -150,6 +158,16 @@ const App: React.FC = () => {
           <button onClick={ligarAr}>
             {dispositivo.sala.arOn ? 'Desligar Ar' : 'Ligar Ar'}
           </button>
+          <p>
+            Temperatura:
+            <input
+              type="number"
+              value={dispositivo.sala.arTemperatura}
+              onChange={(e) => ajustarAr(Number(e.target.value))}
+              min="18"
+              max="30"
+            />
+          </p>
           <img
             src={ar}
             className={`status ${dispositivo.sala.arOn ? 'on' : 'off'}`}
@@ -183,12 +201,10 @@ const App: React.FC = () => {
                     <img
                       src={tv}
                       className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
-
                     />
                   </>
                 )}
               </div>
-
             </>
           )}
         </div>
@@ -213,16 +229,16 @@ const App: React.FC = () => {
           <button onClick={ligarGeladeira}>
             {dispositivo.cozinha.geladeiraOn ? 'Fechar Geladeira' : 'Abrir Geladeira'}
           </button>
+          <p>Temperatura:
+            <input
+              type="number"
+              value={dispositivo.cozinha.geladeiraTemperatura}
+              onChange={(e) => ajustarTemperaturaGeladeira(Number(e.target.value))}
+              placeholder="Ajustar Temperatura"
+            /></p>
           <img
             src={geladeira}
             className={`status ${dispositivo.cozinha.geladeiraOn ? 'on' : 'off'}`}
-          />
-          <p>Temperatura: {dispositivo.cozinha.geladeiraTemperatura.toFixed(1)}°C</p>
-          <input
-            type="number"
-            value={dispositivo.cozinha.geladeiraTemperatura}
-            onChange={(e) => ajustarTemperaturaGeladeira(Number(e.target.value))}
-            placeholder="Ajustar Temperatura"
           />
         </div>
 
@@ -291,7 +307,6 @@ const App: React.FC = () => {
               className={`status ${dispositivo.quarto.ventiladorOn ? 'on' : 'off'}`}
             />
           </div>
-
         </div>
 
         <div className='cortinas'>

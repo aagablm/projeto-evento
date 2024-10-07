@@ -3,7 +3,13 @@ import io from 'socket.io-client';
 import './App.css';
 import luz from './imagens/luz.png';
 import ar from './imagens/ar.png';
-import tv from './imagens/tv.png';
+import arDesligado from './imagens/arDesligado.png';
+import canal1 from './imagens/canal1.png';
+import canal2 from './imagens/canal2.png';
+import canal3 from './imagens/canal3.png';
+import canal4 from './imagens/canal4.png';
+import canal5 from './imagens/canal5.png';
+import tvDesligada from './imagens/tvDesligada.png';
 import geladeira from './imagens/geladeira.png';
 import fogao from './imagens/fogao.png';
 import ventilador from './imagens/ventilador.png';
@@ -41,7 +47,7 @@ const App: React.FC = () => {
     sala: {
       luzOn: false,
       arOn: false,
-      arTemperatura: 24, // Inicializa a temperatura do ar-condicionado
+      arTemperatura: 24,
       tvOn: false,
       tvCanal: 1
     },
@@ -170,17 +176,18 @@ const App: React.FC = () => {
             />
           </p>
           <img
-            src={ar}
-            className={`status ${dispositivo.sala.arOn ? 'on' : 'off'}`}
+            src={dispositivo.sala.arOn ? ar : arDesligado}
+            className='status'
           />
         </div>
+
         <div className='tv'>
           <p>Televisão</p>
           <button onClick={ligarTV}>
             {dispositivo.sala.tvOn ? 'Desligar Televisão' : 'Ligar Televisão'}
           </button>
           <div className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}>
-            {dispositivo.sala.tvOn && (
+            {dispositivo.sala.tvOn ? (
               <>
                 <div>
                   <p>Canal:
@@ -189,21 +196,32 @@ const App: React.FC = () => {
                       onChange={(e) => mudarCanal(Number(e.target.value))}
                     >
                       {[1, 2, 3, 4, 5].map((canal) => (
-                        <option key={canal} value={canal}>{`Canal ${canal}`}</option>
+                        <option key={canal} value={canal}>{`${canal}`}</option>
                       ))}
                     </select>
                   </p>
                 </div>
                 <div className={`tv-animation canal-${dispositivo.sala.tvCanal}`} />
-                <img
-                  src={tv}
-                  className={`status ${dispositivo.sala.tvOn ? 'on' : 'off'}`}
-                  alt="Televisão"
+                <img 
+                  src={
+                    dispositivo.sala.tvCanal === 1 ? canal1 :
+                      dispositivo.sala.tvCanal === 2 ? canal2 :
+                        dispositivo.sala.tvCanal === 3 ? canal3 :
+                          dispositivo.sala.tvCanal === 4 ? canal4 :
+                            dispositivo.sala.tvCanal === 5 ? canal5 :
+                              ''
+                  }
+                  alt={`Canal ${dispositivo.sala.tvCanal}`}
+                  className='canal-imagem'
                 />
               </>
+            ) : (
+              <img src={tvDesligada} alt="Televisão desligada" className='status' />
             )}
           </div>
+
         </div>
+
       </div>
 
       {/* Cozinha */}

@@ -15,6 +15,7 @@ import geladeira from './imagens/geladeira.png';
 import geladeiraFechada from './imagens/geladeiraFechada.png';
 import fogao from './imagens/fogao.png';
 import ventilador from './imagens/ventilador.png';
+import ventiladorDesligado from './imagens/ventiladorDesligado.png';
 import cortinas from './imagens/cortina.png';
 import cortinaFechada from './imagens/cortinaFechada.png';
 
@@ -169,7 +170,7 @@ const App: React.FC = () => {
             {dispositivo.sala.arOn ? 'Desligar Ar' : 'Ligar Ar'}
           </button>
           <p>
-            Temperatura:
+            Temperatura
             <input
               type="number"
               value={dispositivo.sala.arTemperatura}
@@ -329,9 +330,9 @@ const App: React.FC = () => {
               <div className="wave" />
             )}
             <img
-              src={ventilador}
-              className={`status ${dispositivo.quarto.ventiladorOn ? 'on' : 'off'}`}
-            />
+            src={dispositivo.quarto.ventiladorOn ? ventilador : ventiladorDesligado}
+            className='status'
+          />
           </div>
         </div>
         <div className='cortinas'>

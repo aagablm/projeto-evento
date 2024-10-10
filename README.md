@@ -10,7 +10,7 @@ Este projeto simula uma casa inteligente, permitindo o controle remoto de dispos
 - [Visão Geral](#visão-geral)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Instalação e Execução](#cômodos-e-dispositivos)
-- [Instalação e Execução](#instalação-e-execução)
+- [Cômodos e Dispositivos](#instalação-e-execução)
 
 ## Visão Geral
 
